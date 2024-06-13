@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <div class=" d-flex justify-content-center" > {% crispy form %}</div>
+    <div id='form-errors'>{{ form_errors }}</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock %}

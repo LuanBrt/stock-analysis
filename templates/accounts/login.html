@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+    {% if form.errors %}
+        <strong class=" d-flex justify-content-center">Please enter a correct username and password. Note that both fields may be case-sensitive.</strong>
+    {% endif %}
+    <div class=" d-flex justify-content-center" > {% crispy form %}</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock %}
+
+

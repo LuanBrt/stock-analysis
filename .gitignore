@@ -1,2 +1,7 @@
 .dbdata/
 db.sqlite3
+*/__pycache__/
+.vscode
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py

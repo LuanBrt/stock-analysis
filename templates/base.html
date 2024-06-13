@@ -1,0 +1,79 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/htmx.org@1.8.0"></script>
+  <script src="https://unpkg.com/hyperscript.org@0.9.7"></script>
+
+
+  <!-- For bootstrap -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+    crossorigin="anonymous"></script>
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round"
+    rel="stylesheet">
+  <title>Stock Analysis</title>
+
+  <style>
+
+    body {
+      padding-bottom: 50px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* overriding some default crispy form classes */
+    .invalid-feedback {
+      font-size: .875em;
+      color: #dc3545;
+      display: block;
+    }
+  </style>
+</head>
+
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+  <header class="menu navbar bg-dark text-white mb-3">
+    <h1>Stock Analysis</h1>
+    <ul class="nav">
+      {% if request.user.is_authenticated %}
+      <a class="nav-link text-white" href="{% url 'accounts:logout' %}">Logout</a>
+      {% else %}
+      <a class="nav-link text-white" href="{% url 'accounts:login' %}">
+        Login
+      </a>
+      <a class="nav-link text-white" href="{% url 'accounts:register' %}">
+        Register
+      </a>
+
+      {% endif %}
+    </ul>
+  </header>
+  {% block content %}
+  {% endblock content%}
+  <div id="formModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog" id="formContent">
+    </div>
+  </div>
+  {% block scripts %}
+  <script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+      event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    })
+
+  </script>
+
+  {% endblock scripts %}
+
+</body>
+
+</html>
