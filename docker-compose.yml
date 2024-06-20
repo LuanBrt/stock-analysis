@@ -21,6 +21,30 @@ services:
     depends_on:
       stocks_db:
         condition: service_healthy
+      stock_redis:
+        condition: service_started
+      
+  stock_celery:
+    restart: always
+    build:
+      context: .
+    command: >
+      sh -c "celery -A src.shared.celery worker -f celery.logs -l info -B"
+    volumes:
+      - .:/app
+    depends_on:
+      stocks_db:
+        condition: service_healthy
+      stock_redis:
+        condition: service_started
+      stock_analysis:
+        condition: service_started
+
+  stock_redis:
+    restart: always 
+    image: redis:6.2
+    ports: 
+      - "6379:6379"
     
   stocks_db:
     image: mysql:8

@@ -1,0 +1,30 @@
+<div >
+    <div class="toast pb-2 
+    {% if type == 'failure'%}
+    bg-danger
+    {% elif type == 'info' %}
+    bg-info
+    {% elif type == 'success' %}
+    bg-success
+    {% endif %}
+    text-white d-table float-right mb-1" role="alert" data-autohide="false" aria-live="assertive" aria-atomic="true" _="on load js $('.toast').toast('show')">
+        
+        <div class="toast-body">
+            <div class="d-flex">
+                <strong class="mr-auto">
+                    {% if type == 'failure'%}
+                    Error
+                    {% elif type == 'info' %}
+                    Info 
+                    {% elif type == 'success' %}
+                    Success
+                    {% endif %}
+                </strong>
+                <button type="button" class="text-white ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" _="on click remove my parentElement.parentElement.parentElement ">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {{ message }}
+        </div>
+    </div>
+</div>

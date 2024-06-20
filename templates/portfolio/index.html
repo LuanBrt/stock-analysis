@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div hx-get="{% url 'stocks' %}" hx-trigger="load, reloadstocks from:body, every 10m" id="stocks" hx-target="#stocks" hx-include="[name='timestamp']">
+    <input type="hidden" value="{% if timestamp %}{{ timestamp }}{% else %}day{% endif %}" name="timestamp">
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock %}

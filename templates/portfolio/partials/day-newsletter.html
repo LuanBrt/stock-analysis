@@ -1,0 +1,40 @@
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+        <h2>{{ day|date:'Y-m-d' }}</h2>
+        <div class="d-flex ">
+            <a class="pglink page-link bg-transparent border-0"   href="#" hx-get="{% url 'daily-news' stock.uuid  %}" hx-vals='{"day": "{{ yesterday }}"}' ><h3> &#60; </h3></a>
+            <a class="pblink page-link bg-transparent border-0"   href="#" hx-get="{% url 'daily-news' stock.uuid  %}" hx-vals='{"day": "{{ tomorrow }}"}'><h3> &#62; </h3></a>
+        </div>
+    </div>
+    <div class="p-3"> 
+        
+        <div class="loaddetails"></div>
+        {% for new in news %}
+            <div class="card mb-3" style="max-height: 150px; min-height: 150px;">
+                <div  hx-trigger="load" hx-get="{% url 'new-details' new.uuid %}" hx-swap="none" class="loaddetails" hx-sync=".loaddetails:queue all"></div>
+                <div class="row no-gutters">
+                    <div id="new{{ new.uuid }}image" class="col-md-4 mt-5 d-flex justify-content-center" >
+                        <div class="spinner-border" role="status" >
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                    </div>
+                    <div class="col-md-8 pb-3">
+                        <div class="card-body pb-3">
+                            <div style="height: 60px; overflow-y: hidden; text-overflow: ellipsis;">
+                                <h5 class="card-title"><a hx-boost="false" target="blank" href="{{ new.url }}">{{ new.headline }}</a></h5>
+
+                                <p id="new{{ new.uuid }}description" class="card-text pb-3 text-muted" >...</p>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <p class="card-text pr-3"><small class="text-muted">{{ new.pubdate }}</small></p>
+                                <div><span class="badge badge-primary ">{{ new.prediction|floatformat:2 }}</span></div>
+                            </div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

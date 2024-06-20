@@ -1,0 +1,8 @@
+
+<div class="pr-3 " id="toasts-container" hx-preserve="true"
+_="on htmx:configRequest(parameters, triggeringEvent)
+    set parameters['message'] to message of the triggeringEvent's detail
+    set parameters['type'] to type of the triggeringEvent's detail"
+hx-trigger="show_notification from:body" hx-get="/portfolio/toast/" hx-swap="beforeend"
+style="position: fixed; bottom: 0; right: 0; z-index: 100; ">
+</div>

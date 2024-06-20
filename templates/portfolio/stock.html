@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    {% url 'index' as index_url %}
+    <a hx-boost="true" href="{{ index_url }}?timestamp={{request.GET.timestamp}}">Home</a>
+    <h1>{{ stock.ticker }} - {{ stock.company }}</h1>
+    <div id="stocknews" hx-trigger="load" hx-get="{% url 'daily-news' stock.uuid %}" hx-target="#stocknews"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock %}
+

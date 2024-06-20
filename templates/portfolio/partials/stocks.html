@@ -1,0 +1,61 @@
+{% load portfolio_extras %}
+
+<div class="container d-flex justify-content-between mb-3">
+    <input type="hidden" value="{{timestamp}}" name="timestamp">
+    <ul class="pagination">
+        <li class="page-item {% if timestamp == 'day' %}active{% endif %}"><a hx-push-url="?timestamp=day"
+                class="page-link" hx-get="{% url 'stocks' %}" href="#" hx-vals='{"timestamp": "day"}'>Day</a>
+        </li>
+        <li class="page-item {% if timestamp == 'month' %}active{% endif %}"><a hx-push-url="?timestamp=month"
+                class="page-link" hx-get="{% url 'stocks' %}" href="#"
+                hx-vals='{"timestamp": "month"}'>Month</a></li>
+    </ul>
+    <div class="search-select dropdown">
+        <input name="ticker" class="search_stock" hx-post="{% url 'search-stock' %}"
+            hx-target="#search-results"
+            hx-trigger="keyup delay:150ms"
+            autocomplete="off"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+        <div class="dropdown-menu p-0 w-100" style="overflow-x: scroll;">
+            <div id="search-results" >
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col" class="col-1">#</th>
+                <th scope="col" class="col-2">Stock</th>
+                <th scope="col" class="col-4">Company</th>
+                <th scope="col" class="col-2">News</th>
+                <th scope="col" class="col-2">Sentiment Score <span class="material-icons align-middle"
+                        style="font-size: 18px" data-toggle="tooltip" data-placement="top"
+                        title="The sentiment scores are ranked from -1 to +1">
+                        help
+                    </span></th>
+                <th scope="col" class="col-1"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stocks %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td><a hx-boost="true" hx-target="body" href="{% url 'stock' stock.ticker %}">{{ stock.ticker }}</a></td>
+                <td>{{ stock.company }}</td>
+                <td>{{ stock|get_timestamp_news:timestamp }}</td>
+                <td>{{ stock|get_sentiment_value:timestamp|floatformat:2 }}</td>
+                <td><button type="button" class="close" hx-swap="none"
+                        hx-put="{% url 'detach-stock' stock.ticker %}">
+                        <span aria-hidden="true">&times;</span>
+                    </button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
