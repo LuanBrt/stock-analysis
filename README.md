@@ -11,7 +11,6 @@ Esta é uma aplicação Django para análise de dados e notícias sobre ações.
 ## Pré-requisitos
 
 - [Docker](https://www.docker.com/products/docker-desktop)
-- Docker Compose
 
 ## Começando
 
