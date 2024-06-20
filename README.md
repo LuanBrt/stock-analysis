@@ -1,4 +1,3 @@
-```markdown
 # Aplicação de Análise de Ações
 
 Esta é uma aplicação Django para análise de dados e notícias sobre ações. A aplicação utiliza Celery para tarefas em segundo plano e Redis para gerenciamento de mensagens.
