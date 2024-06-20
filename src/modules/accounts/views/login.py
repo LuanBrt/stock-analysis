@@ -15,6 +15,9 @@ def login(request: HttpRequest) -> HttpResponse:
         HttpResponse: Resposta HTTP que redireciona o usuário para a página inicial se a autenticação for bem-sucedida,
                       ou se der erro re-renderiza a página de login com o formulário.
     """
+    # Se  usuário já estiver cadastrado automaticamente é redirecionado para o portfolio
+    if request.user.is_authenticated:
+        return redirect(reverse_lazy('index'))
 
     form = LoginForm(request, data=request.POST or None)
 
