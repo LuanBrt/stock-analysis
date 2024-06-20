@@ -8,7 +8,6 @@ Esta é uma aplicação Django para análise de dados e notícias sobre ações.
 - Autenticação e registro de usuários
 - Operações CRUD para ações
 - Tarefas em segundo plano para buscar notícias sobre ações e atualizar a análise de sentimento
-- Websockets para notificações em tempo real
 
 ## Pré-requisitos
 
