@@ -7,7 +7,6 @@ This is a Django application for analyzing stock data and news. The application 
 - User authentication and registration
 - CRUD operations for stocks
 - Background tasks for fetching stock news and updating sentiment analysis
-- Websockets for real-time notifications
 
 ## Prerequisites
 
