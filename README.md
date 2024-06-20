@@ -28,7 +28,7 @@ cd stock_analysis
 1. **Build and run the containers:**
 
     ```sh
-    docker-compose up --build
+    docker compose up --build
     ```
 
 2. **Run database migrations:**
