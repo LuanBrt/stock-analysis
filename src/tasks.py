@@ -29,48 +29,52 @@ def get_data_for_stocks(self: Task) -> None:
         None
     """
     file_path: str = os.path.join(settings.BASE_DIR, 'data/us_symbols.csv')
-    logger.info("going to get data")
+    logger.info("Iniciando a obtenção de dados")
 
     api_retriver = ApiRetriver()
     api_retriver.set_header()
     scrapper = NewsRetriver()
     scrapper.set_header()
 
+    stocks = []
+
+    # Primeiro, criar todas as instâncias de ações
     with open(file_path, 'r') as file:
         dt = csv.reader(file, delimiter=',')
         for stock in dt:
-            news = None
             if stock[2] not in ['NYSE', 'NASDAQ']:
                 continue
-            if Stock.objects.filter(ticker=stock[0]).exists():
-                continue
-            stock_instance = Stock.objects.create(ticker=stock[0], company=stock[1], exchange=stock[2])
-            
-            connection_count: int = 0
-            while news is None and connection_count <= CONNECTION_TIMEOUT:
-                try:
-                    news = scrapper.query({'ticker': stock[0]})
+            if not Stock.objects.filter(ticker=stock[0]).exists():
+                stock_instance = Stock.objects.create(ticker=stock[0], company=stock[1], exchange=stock[2])
+                stocks.append(stock_instance)
+    
+    # Depois, buscar e processar as notícias para cada ação
+    for stock_instance in stocks:
+        news = None
+        connection_count: int = 0
+        while news is None and connection_count <= CONNECTION_TIMEOUT:
+            try:
+                news = scrapper.query({'ticker': stock_instance.ticker})
+            except Exception as e:
+                if isinstance(e, HTTPError):
+                    if e.code == 404:
+                        # página não existe: excluir ticker
+                        stock_instance.delete()
+                        connection_count = CONNECTION_TIMEOUT
+                logger.error(e)
+                time.sleep(1)
+                connection_count += 1
+            else:
+                for new in news:
+                    time.sleep(2)
+                    New.objects.create(
+                        stock=stock_instance, 
+                        headline=new['headline'], 
+                        url=new['url'], 
+                        pubdate=new['pubdate'], 
+                        prediction=api_retriver.query({'inputs': new['headline'], 'options': {'wait_for_model': True}})
+                    )
 
-                except Exception as e:
-
-                    if isinstance(e, HTTPError):
-                        if e.code == 404:
-                            # página não existe: excluir ticker
-                            stock_instance.delete()
-                            connection_count = CONNECTION_TIMEOUT
-                    logger.error(e)
-                    time.sleep(1)
-                    connection_count += 1
-                else:
-                    for new in news:
-                        time.sleep(2)
-                        New.objects.create(
-                            stock=stock_instance, 
-                            headline=new['headline'], 
-                            url=new['url'], 
-                            pubdate=new['pubdate'], 
-                            prediction=api_retriver.query({'inputs': new['headline'], 'options': {'wait_for_model': True}})
-                        )
 
 @shared_task(bind=True)
 def update_news(self: Task) -> None:

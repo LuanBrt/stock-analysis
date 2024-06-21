@@ -18,7 +18,9 @@ Esta é uma aplicação Django para análise de dados e notícias sobre ações.
 
 ### Atraso na Configuração Inicial
 
-Observe que, na primeira vez que você inicializar o projeto, pode demorar um pouco para que as ações e as notícias sejam processadas. Esse atraso ocorre devido ao tempo de resposta da API Finbert, que pode ser lento. Além disso, a aplicação busca dados de ações e artigos de notícias em segundo plano usando tarefas Celery, e esse processo também pode levar algum tempo para ser concluído inicialmente.
+Observe que, na primeira vez que você inicializar o projeto, pode haver um atraso no processamento das ações e das notícias. Esse atraso é devido ao tempo de resposta da API Finbert, que pode ser lento. Além disso, a aplicação realiza a busca de dados de ações e artigos de notícias em segundo plano usando tarefas Celery, o que pode levar algum tempo para ser concluído inicialmente.
+
+Para monitorar o processamento dos dados, um arquivo de logs do Celery (celery.logs) será criado automaticamente ao iniciar e rodar o projeto. Recomenda-se observar a ação Agilent (código A), pois ela será a primeira a ser processada, permitindo acompanhar o funcionamento do sistema desde o início.
 
 ### Clonar o Repositório
 
