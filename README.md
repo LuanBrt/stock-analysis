@@ -2,6 +2,10 @@
 
 Esta é uma aplicação Django para análise de dados e notícias sobre ações. A aplicação utiliza Celery para tarefas em segundo plano e Redis para gerenciamento de mensagens.
 
+https://github.com/LuanBrt/stock-analysis/assets/121268625/56253a7e-20b5-4529-8475-a84957194e2b
+
+
+
 ## Funcionalidades
 
 - Autenticação e registro de usuários
