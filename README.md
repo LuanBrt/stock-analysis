@@ -46,6 +46,7 @@ cd stock_analysis
 3. **Acessar a aplicação:**
 
     Abra o navegador e vá para `http://localhost:8000`.
+    **Obs:** Quando o projeto é executado pela primeira vez, pode levar um tempo até que a url da aplicação fique disponível.
 
 ## Tecnologias
 
